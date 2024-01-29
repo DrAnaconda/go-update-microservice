@@ -9,11 +9,10 @@ import (
 
 type Config struct {
 	ListenAddress             string `json:"listenAddress"`
-	FarmTrackerToken          string `json:"farmTrackerToken"`
-	FarmTrackerUpdateFile     string `json:"farmTrackerUpdateFile"`
-	FarmExplorerUpdateFile    string `json:"farmExplorerUpdateFile"`
 	CertificatePath           string `json:"certificatePath"`
 	CertificatePrivateKeyPath string `json:"certificatePrivateKeyPath"`
+	DatabaseConnectionString  string `json:"databaseConnectionString"`
+	GlobalRequestsPerSecond   int    `json:"globalRequestsPerSecond"`
 }
 
 var Configuration *Config

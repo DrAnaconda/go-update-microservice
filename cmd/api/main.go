@@ -5,25 +5,28 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"os"
-	farmtracker "update-microservice/internal/farm-tracker"
+	"update-microservice/internal/controllers"
 	serverconfiguration "update-microservice/internal/server-configuration"
 	configurationmanager "update-microservice/packages/utils/configuration-manager"
 )
 
+// TODO: License handling for each product
+// TODO: Config from DB OR Local file
+// TODO: Rate limiting options from DB for each product
+
 func main() {
-	e := echo.New()
-	e.Logger.SetLevel(log.DEBUG)
-
-	serverconfiguration.ApplyGlobalRateLimit(e)
-
 	config, err := configurationmanager.LoadConfiguration("config.json")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	// TODO: Load endpoint from DB (endpoint name >> target path/file name >> permissions)
-	farmtracker.RegisterControllers(e)
+	e := echo.New()
+	e.Logger.SetLevel(log.DEBUG)
+
+	serverconfiguration.ApplyGlobalRateLimit(e)
+
+	controllers.RegisterUpdateEndpoints(e)
 
 	if os.Getenv("Debug") == "true" {
 		e.Logger.Debug(e.StartTLS(config.ListenAddress, config.CertificatePath, config.CertificatePrivateKeyPath))
