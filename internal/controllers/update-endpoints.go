@@ -42,6 +42,7 @@ func RegisterUpdateEndpoints(e *echo.Echo) {
 
 func createUpdateFileEndpoints(e *echo.Echo) {
 	for _, product := range products {
+		product := product
 		baseModulePath := fmt.Sprintf("%s/%s/", baseControllerPath, product.Name)
 
 		updateRateLimiter := ip_limiter.NewIPRateLimiterMiddleware(int((5 * time.Minute).Seconds()))
@@ -60,6 +61,7 @@ func createUpdateFileEndpoints(e *echo.Echo) {
 
 func createMetadataEndpoints(e *echo.Echo) {
 	for _, product := range products {
+		product := product
 		baseModulePath := fmt.Sprintf("%s/%s/", baseControllerPath, product.Name)
 
 		e.GET(fmt.Sprintf("%s%s", baseModulePath, metadataEndpoint), func(c echo.Context) error {

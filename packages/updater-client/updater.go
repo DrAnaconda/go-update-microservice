@@ -170,6 +170,9 @@ func ConfigureAutoUpdateModule(config AutoUpdateConfiguration) {
 
 func DoUpdate(moduleName string) error {
 	downloadData, err := getFileMetadata(configuration.UpdateLocationFile, moduleName)
+	if err != nil || downloadData == nil {
+		return fmt.Errorf("update failed: %w", err)
+	}
 
 	if !isShouldDownloadFile(downloadData, configuration.LocalVersionInfo) {
 		return nil
